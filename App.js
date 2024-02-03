@@ -1,12 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from "react-native-safe-area-context"
+import React from "react"
+import { ThemeProvider } from "@shopify/restyle"
+import theme from './src/utils/theme'
+import Navigation from './src/navigation'
+import { SWRConfig } from "swr"
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider theme={theme}>
+    <SafeAreaProvider>
+    <SWRConfig
+          value={{
+            provider: () => new Map(),
+            isVisible: () => {
+              return true
+            },
+
+          }}
+        >
+          <Navigation />
+        </SWRConfig>
+    </SafeAreaProvider>
+    </ThemeProvider>
   );
 }
 
