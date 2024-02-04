@@ -1,12 +1,12 @@
 interface IUser {
   email: string
-  name: string
+  username: string
   password: string
 }
 
 interface IAuthenticatedUser {
   email: string
-  name: string
+  username: string
 }
 
 export interface IColor {

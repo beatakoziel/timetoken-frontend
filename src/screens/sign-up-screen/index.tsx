@@ -8,6 +8,7 @@ import React from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Pressable } from "react-native"
 import { IUser } from "../../types"
+import { registerUser } from "../../services/api"
 
 const SignUpScreen = () => {
   const navigation = useNavigation<AuthScreenNavigationType<"SignUp">>()
@@ -28,7 +29,12 @@ const SignUpScreen = () => {
 
   const onSubmit = async (data: IUser) => {
     try {
-      const { email, name, password } = data
+      const { email, username, password } = data
+      await registerUser({
+        email,
+        username,
+        password,
+      })
       navigateToSignInScreen()
     } catch (error) {}
   }
@@ -47,14 +53,14 @@ const SignUpScreen = () => {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              label="Name"
+              label="Username"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              placeholder="Name"
+              placeholder="Username"
             />
           )}
-          name="name"
+          name="username"
         />
         <Box mb="6" />
         <Controller
