@@ -14,7 +14,7 @@ export const saveToken = async (key: string, value: string) => {
   try {
     await SecureStore.setItemAsync(key, value)
   } catch (error) {
-    console.log("Error ocurred when saving token", error)
+    console.log("Error ocurred in saveToken", error)
     throw error
   }
 }

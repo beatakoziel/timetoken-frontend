@@ -21,7 +21,7 @@ export const registerUser = async ({
   }
 }
 
-type LoginUserTypes = Omit<IUser, "name">
+type LoginUserTypes = Omit<IUser, "username">
 
 export const loginUser = async ({ email, password }: LoginUserTypes) => {
   try {
@@ -29,7 +29,7 @@ export const loginUser = async ({ email, password }: LoginUserTypes) => {
       email,
       password
     })
-    const _token = response.data.token
+    const _token = response.data
     axiosInstance.defaults.headers.common["Authorization"] = _token
     saveToken(ACCESS_TOKEN_NAME, _token)
     return response.data.user

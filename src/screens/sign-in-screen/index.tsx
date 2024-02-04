@@ -9,6 +9,7 @@ import React from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Pressable } from "react-native"
 import { IUser } from "../../types"
+import { loginUser } from "../../services/api"
 
 const SignInScreen = () => {
   const navigation = useNavigation<AuthScreenNavigationType<"SignIn">>()
@@ -21,16 +22,24 @@ const SignInScreen = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<Omit<IUser, "name">>({
+  } = useForm<Omit<IUser, "username">>({
     defaultValues: {
       email: "",
       password: "",
     },
   })
 
-  const onSubmit = async (data: Omit<IUser, "name">) => {
+  const onSubmit = async (data: Omit<IUser, "username">) => {
     try {
       const { email, password } = data
+      const _user = await loginUser({
+        email,
+        password
+      })
+      updateUser({
+        email: _user.email,
+        username: _user.username,
+      })
     } catch (error) {}
   }
 
