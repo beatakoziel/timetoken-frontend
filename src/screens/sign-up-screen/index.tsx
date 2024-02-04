@@ -35,12 +35,9 @@ const SignUpScreen = () => {
 
   return (
     <SafeAreaWrapper>
-      <Box flex={1} px="5.5" mt={"13"}>
-        <Text variant="textXl" fontWeight="700">
-          Welcome to Blossom!
-        </Text>
+      <Box flex={1} px="5.5" justifyContent="center">
         <Text variant="textXl" fontWeight="700" mb="6">
-          Your journey starts here
+          Welcome to Timetoken!
         </Text>
 
         <Controller

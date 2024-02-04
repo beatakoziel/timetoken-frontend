@@ -3,7 +3,7 @@ export const textVariants = {
   textXs: {
     fontSize: 12,
     lineHeight: 16,
-    color: "gray8",
+    color: "white",
   },
   textSm: {
     fontSize: 14,
@@ -23,7 +23,7 @@ export const textVariants = {
   textXl: {
     fontSize: 20,
     lineHeight: 28,
-    color: "gray8",
+    color: "white",
   },
   text2Xl: {
     fontSize: 24,

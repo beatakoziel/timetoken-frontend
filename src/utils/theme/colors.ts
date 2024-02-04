@@ -1,6 +1,7 @@
 export const palette = {
   white: "#ffffff",
-  primary: "#007AFF",
+  black: "#1A1A1A",
+  primary: "#9B45AD",
   lightGray: "#EDECEF",
   gray550: "#939292",
   gray650: "#8a8a8a",
@@ -194,6 +195,7 @@ export const palette = {
 
 export const colors = {
   white: palette.white,
+  black: palette.black,
   lightGray: palette.lightGray,
   gray550: palette.gray550,
   gray650: palette.gray650,
