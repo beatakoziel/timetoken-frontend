@@ -19,7 +19,9 @@ const Input = ({ label, error, ...props }: InputProps) => {
           borderWidth: 1,
           borderColor: error ? theme.colors.rose500 : theme.colors.grey,
           borderRadius: theme.borderRadii["rounded-7xl"],
+          color: theme.colors.white,
         }}
+        placeholderTextColor={theme.colors.grey}
         {...props}
       />
       {error && (
