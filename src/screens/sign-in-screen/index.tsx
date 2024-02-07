@@ -32,13 +32,13 @@ const SignInScreen = () => {
   const onSubmit = async (data: Omit<IUser, "username">) => {
     try {
       const { email, password } = data
-      const _user = await loginUser({
+      await loginUser({
         email,
         password
       })
       updateUser({
-        email: _user.email,
-        username: _user.username,
+        email: email,
+        username: "temp",
       })
     } catch (error) {}
   }

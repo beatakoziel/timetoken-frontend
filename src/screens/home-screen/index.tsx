@@ -39,7 +39,7 @@ const HomeScreen = () => {
           fontWeight="500"
           entering={ZoomInEasyDown.delay(500).duration(700)}
         >
-          Good {greeting} {user?.name}
+          Good {greeting} {user?.email}
         </AnimatedText>
         <Text variant="textXl" fontWeight="500">
           It’s {format(today, "eeee, LLL dd")} - {tasks.length} tasks
