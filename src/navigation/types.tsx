@@ -19,7 +19,7 @@ export type AuthStackParamList = {
 export type RootBottomTabParamList = {
   HomeStack: NavigatorScreenParams<HomeStackParamList>
   Today: undefined
-  Completed: undefined
+  Definitions: undefined
   CategoriesStack: NavigatorScreenParams<CategoriesStackParamList>
 }
 

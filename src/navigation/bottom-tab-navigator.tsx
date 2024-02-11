@@ -6,6 +6,7 @@ import { useTheme } from "@shopify/restyle"
 import CategoriesStackNavigator from "./categories-stack-navigator"
 import HomeStackNavigator from "./home-stack-navigator"
 import { RootBottomTabParamList } from "./types"
+import DefinitionsScreen from "@/screens/definitions-screen"
 
 const Tab = createBottomTabNavigator<RootBottomTabParamList>()
 
@@ -33,6 +34,15 @@ const BottomTabNavigator = () => {
         component={CompletedScreen}
         options={() => ({
           title: "Completed",
+          tabBarIcon: ({ color }) => <Icons name="completed" color={color} />,
+          headerShown: false,
+        })}
+      />
+      <Tab.Screen
+        name="Definitions"
+        component={DefinitionsScreen}
+        options={() => ({
+          title: "Definitions",
           tabBarIcon: ({ color }) => <Icons name="completed" color={color} />,
           headerShown: false,
         })}
