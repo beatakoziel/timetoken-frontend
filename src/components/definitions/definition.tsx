@@ -1,6 +1,6 @@
 import { HomeScreenNavigationType } from "@/navigation/types"
 import axiosInstance from "@/services/config"
-import { ITask } from "@/types"
+import { IDefinition } from "@/types"
 import { AnimatedBox, Box, Text } from "@/utils/theme"
 import { Ionicons } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
@@ -15,47 +15,47 @@ import {
 } from "react-native-reanimated"
 import useSWRMutation from "swr/mutation"
 
-type TaskProps = {
-  task: ITask
-  mutateTasks: () => Promise<ITask[] | undefined>
+type DefinitionProps = {
+  definition: IDefinition
+  mutateDefinitions: () => Promise<IDefinition[] | undefined>
 }
 
-interface ITaskStatusRequest {
+interface IDefinitionStatusRequest {
   id: string
   isCompleted: boolean
 }
 
-const toggleTaskStatusRequest = async (
+const toggleDefinitionStatusRequest = async (
   url: string,
-  { arg }: { arg: ITaskStatusRequest }
+  { arg }: { arg: IDefinitionStatusRequest }
 ) => {
   try {
     await axiosInstance.put(url + "/" + arg.id, {
       ...arg,
     })
   } catch (error) {
-    console.log("error in toggleTaskStatusRequest", error)
+    console.log("error in toggleDefinitionStatusRequest", error)
     throw error
   }
 }
 
-const Task = ({ task, mutateTasks }: TaskProps) => {
-  const { trigger } = useSWRMutation("tasks/update", toggleTaskStatusRequest)
+const Definition = ({ definition, mutateDefinitions }: DefinitionProps) => {
+  const { trigger } = useSWRMutation("definitions/update", toggleDefinitionStatusRequest)
 
   const offset = useSharedValue(1)
   const checkmarkIconSize = useSharedValue(0.8)
 
   const navigation = useNavigation<HomeScreenNavigationType>()
 
-  const toggleTaskStatus = async () => {
+  const toggleDefinitionStatus = async () => {
     try {
-      const _updatedTask = {
-        id: task._id,
-        isCompleted: !task.isCompleted,
+      const _updatedDefinition = {
+        id: definition._id,
+        isCompleted: !definition.isCompleted,
       }
-      await trigger(_updatedTask)
-      await mutateTasks()
-      if (!_updatedTask.isCompleted) {
+      await trigger(_updatedDefinition)
+      await mutateDefinitions()
+      if (!_updatedDefinition.isCompleted) {
         offset.value = 1
         checkmarkIconSize.value = 0
       } else {
@@ -63,14 +63,14 @@ const Task = ({ task, mutateTasks }: TaskProps) => {
         checkmarkIconSize.value = 1
       }
     } catch (error) {
-      console.log("error in toggleTaskStatus", error)
+      console.log("error in toggleDefinitionStatus", error)
       throw error
     }
   }
 
-  const navigateToEditTask = () => {
-    navigation.navigate("EditTask", {
-      task,
+  const navigateToEditDefinition = () => {
+    navigation.navigate("EditDefinition", {
+      definition,
     })
   }
 
@@ -83,16 +83,16 @@ const Task = ({ task, mutateTasks }: TaskProps) => {
   const checkMarkIconStyles = useAnimatedStyle(() => {
     return {
       transform: [{ scale: withSpring(checkmarkIconSize.value) }],
-      opacity: task.isCompleted ? offset.value : 0,
+      opacity: definition.isCompleted ? offset.value : 0,
     }
   })
 
   return (
     <AnimatedBox entering={FadeInRight} exiting={FadeInLeft}>
-      <Pressable onPress={toggleTaskStatus} onLongPress={navigateToEditTask}>
+      <Pressable onPress={toggleDefinitionStatus} onLongPress={navigateToEditDefinition}>
         <Box
           p="4"
-          bg="black"
+          bg="gray8"
           borderRadius="rounded-5xl"
           flexDirection="row"
         >
@@ -102,23 +102,9 @@ const Task = ({ task, mutateTasks }: TaskProps) => {
               flexDirection="row"
               alignItems="center"
             >
-              <Box
-                height={26}
-                width={26}
-                bg={task.isCompleted ? "gray9" : "gray300"}
-                borderRadius="rounded-xl"
-                alignItems="center"
-                justifyContent="center"
-              >
-                {task.isCompleted && (
-                  <AnimatedBox style={[checkMarkIconStyles]}>
-                    <Ionicons name="ios-checkmark" size={20} color="white" />
-                  </AnimatedBox>
-                )}
-              </Box>
             </AnimatedBox>
             <Text ml="3" variant="textXl">
-              {task.name}
+              {definition.name}
             </Text>
           </Box>
           <Box></Box>
@@ -128,4 +114,4 @@ const Task = ({ task, mutateTasks }: TaskProps) => {
   )
 }
 
-export default Task
+export default Definition

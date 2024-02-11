@@ -45,6 +45,11 @@ interface ITask {
   date: string
 }
 
+interface IDefinition {
+  _id: string
+  name: string
+}
+
 interface ITaskRequest {
   name: string
   isCompleted: boolean

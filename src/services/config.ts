@@ -22,7 +22,6 @@ export const saveToken = async (key: string, value: string) => {
 axiosInstance.interceptors.request.use(async (req) => {
   try {
     const access_token = await SecureStore.getItemAsync(ACCESS_TOKEN_NAME)
-    console.log("Access token: " + access_token)
     req.headers.Authorization = "Bearer " + access_token
     return req
   } catch (error) {
@@ -30,12 +29,7 @@ axiosInstance.interceptors.request.use(async (req) => {
   }
 })
 
-export const fetcher = (url: string) => {
-  console.log('Fetching')
-  axiosInstance.get(url).then((res) => {
-    console.log("My data: " + res.data)
-    return res.data
-  })
-}
+export const fetcher = (url: string) =>
+  axiosInstance.get(url).then((res) => res.data)
 
 export default axiosInstance
