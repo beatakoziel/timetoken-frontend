@@ -45,9 +45,10 @@ interface ITask {
   date: string
 }
 
-interface IDefinition {
-  _id: string
+interface IToken {
+  id: string
   name: string
+  value: number
 }
 
 interface ITaskRequest {

@@ -1,4 +1,4 @@
-import { ICategory, ITask } from "../types"
+import { ICategory, ITask, IToken } from "../types"
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs"
 import {
   CompositeNavigationProp,
@@ -30,13 +30,13 @@ export type HomeStackParamList = {
   }
 }
 
-export type CategoriesStackParamList = {
-  Categories: undefined
-  Category: {
+export type TokensStackParamList = {
+  Tokens: undefined
+  Token: {
     id: string
   }
-  CreateCategory: {
-    category?: ICategory
+  CreateToken: {
+    token?: IToken
   }
 }
 

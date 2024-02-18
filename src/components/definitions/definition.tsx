@@ -1,11 +1,13 @@
-import { HomeScreenNavigationType } from "@/navigation/types"
+import { HomeScreenNavigationType, TokensStackParamList } from "@/navigation/types"
 import axiosInstance from "@/services/config"
-import { IDefinition } from "@/types"
+import { IToken } from "@/types"
 import { AnimatedBox, Box, Text } from "@/utils/theme"
-import { Ionicons } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
 import React from "react"
-import { Pressable } from "react-native"
+import Button from "@/components/shared/button"
+import { RouteProp, useRoute } from "@react-navigation/native"
+import  BASE_URL from "@/services/config"
+import { useSWRConfig } from "swr"
 import {
   FadeInLeft,
   FadeInRight,
@@ -15,63 +17,59 @@ import {
 } from "react-native-reanimated"
 import useSWRMutation from "swr/mutation"
 
+
+type CreateCategoryRouteTypes = RouteProp<
+  TokensStackParamList,
+  "CreateToken"
+>
+
 type DefinitionProps = {
-  definition: IDefinition
-  mutateDefinitions: () => Promise<IDefinition[] | undefined>
+  token: IToken
+  mutateDefinitions: () => Promise<IToken[] | undefined>
 }
 
-interface IDefinitionStatusRequest {
-  id: string
-  isCompleted: boolean
-}
 
-const toggleDefinitionStatusRequest = async (
-  url: string,
-  { arg }: { arg: IDefinitionStatusRequest }
-) => {
-  try {
-    await axiosInstance.put(url + "/" + arg.id, {
-      ...arg,
-    })
-  } catch (error) {
-    console.log("error in toggleDefinitionStatusRequest", error)
-    throw error
-  }
-}
+const Definition = ({ token, mutateDefinitions }: DefinitionProps) => {
 
-const Definition = ({ definition, mutateDefinitions }: DefinitionProps) => {
-  const { trigger } = useSWRMutation("definitions/update", toggleDefinitionStatusRequest)
+
+const route = useRoute<CreateCategoryRouteTypes>()
 
   const offset = useSharedValue(1)
-  const checkmarkIconSize = useSharedValue(0.8)
+
+  const { mutate } = useSWRConfig()
 
   const navigation = useNavigation<HomeScreenNavigationType>()
 
-  const toggleDefinitionStatus = async () => {
+  const deleteDefinitionRequest = async (
+    url: string,
+    { arg }: { arg: { id: string } }
+  ) => {
     try {
-      const _updatedDefinition = {
-        id: definition._id,
-        isCompleted: !definition.isCompleted,
-      }
-      await trigger(_updatedDefinition)
-      await mutateDefinitions()
-      if (!_updatedDefinition.isCompleted) {
-        offset.value = 1
-        checkmarkIconSize.value = 0
-      } else {
-        offset.value = 1.1
-        checkmarkIconSize.value = 1
-      }
+      await axiosInstance.delete(url + arg.id)
     } catch (error) {
-      console.log("error in toggleDefinitionStatus", error)
+      console.log("Error ocurred in deleteDefinition", error)
       throw error
     }
   }
 
-  const navigateToEditDefinition = () => {
-    navigation.navigate("EditDefinition", {
-      definition,
-    })
+  const { trigger: deleteTrigger } = useSWRMutation(
+    "tokens/",
+    deleteDefinitionRequest
+  )
+
+  const deleteDefinition= async () => {
+    try {
+      console.log(token)
+      if (token?.id)
+        await deleteTrigger({
+          id: token?.id,
+        })
+      await mutate(BASE_URL + "tokens")
+      //TODO refresh list of tokens
+    } catch (error) {
+      console.log("Error ocurred in deleteDefinition", error)
+      throw error
+    }
   }
 
   const animatedStyles = useAnimatedStyle(() => {
@@ -80,16 +78,8 @@ const Definition = ({ definition, mutateDefinitions }: DefinitionProps) => {
     }
   })
 
-  const checkMarkIconStyles = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: withSpring(checkmarkIconSize.value) }],
-      opacity: definition.isCompleted ? offset.value : 0,
-    }
-  })
-
   return (
     <AnimatedBox entering={FadeInRight} exiting={FadeInLeft}>
-      <Pressable onPress={toggleDefinitionStatus} onLongPress={navigateToEditDefinition}>
         <Box
           p="4"
           bg="gray8"
@@ -104,12 +94,17 @@ const Definition = ({ definition, mutateDefinitions }: DefinitionProps) => {
             >
             </AnimatedBox>
             <Text ml="3" variant="textXl">
-              {definition.name}
+              {token.name} {token.value}
             </Text>
+              <Box flexDirection="row" alignItems="flex-end">
+            <Button
+                label="Delete"
+                onPress={deleteDefinition}
+            />
+              </Box>
           </Box>
           <Box></Box>
         </Box>
-      </Pressable>
     </AnimatedBox>
   )
 }

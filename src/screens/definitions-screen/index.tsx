@@ -4,7 +4,7 @@ import NavigateBack from "@/components/shared/navigate-back"
 import SafeAreaWrapper from "@/components/shared/safe-area-wrapper"
 import Definition from "@/components/definitions/definition"
 import { fetcher } from "@/services/config"
-import { ITask } from "@/types"
+import { IToken} from "@/types"
 import { Box, Text } from "@/utils/theme"
 import React from "react"
 import { FlatList } from "react-native"
@@ -15,7 +15,7 @@ const DefinitionsScreen = () => {
     data: tasks,
     isLoading: isLoadingTasks,
     mutate: mutateTasks,
-  } = useSWR<IToken[]>(`api/v1/tokens`, fetcher, {
+  } = useSWR<IToken[]>(`tokens`, fetcher, {
     refreshInterval: 1000,
   }) 
 
@@ -45,16 +45,16 @@ const DefinitionsScreen = () => {
           data={tasks}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => {
-            return <Definition definition={item} mutateDefinitions={mutateTasks} />
+            return <Definition token={item} mutateDefinitions={mutateTasks} />
           }}
           ItemSeparatorComponent={() => <Box height={14} />}
-          keyExtractor={(item) => item._id}
+          keyExtractor={(item) => item.id}
         />
         </Box>
 
         <Box mb="3">
             <Button
-                label="Add new +"
+                label="ADD NEW"
                 onPress={() => {}}
             />
         </Box>
