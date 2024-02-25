@@ -7,7 +7,7 @@ import { fetcher } from "@/services/config"
 import { IToken} from "@/types"
 import { Box, Text } from "@/utils/theme"
 import React from "react"
-import { FlatList } from "react-native"
+import { StyleSheet, FlatList } from "react-native"
 import useSWR from "swr"
 
 const DefinitionsScreen = () => {

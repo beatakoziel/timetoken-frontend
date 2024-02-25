@@ -20,7 +20,7 @@ const BottomTabNavigator = () => {
         tabBarHideOnKeyboard: true,
       }}
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="HomeStack"
         component={HomeStackNavigator}
         options={() => ({
@@ -28,8 +28,8 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color }) => <Icons name="home" color={color} />,
           headerShown: false,
         })}
-      />
-      <Tab.Screen
+      /> */}
+      {/* <Tab.Screen
         name="Completed"
         component={CompletedScreen}
         options={() => ({
@@ -37,7 +37,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color }) => <Icons name="completed" color={color} />,
           headerShown: false,
         })}
-      />
+      /> */}
       <Tab.Screen
         name="Definitions"
         component={DefinitionsScreen}
@@ -47,7 +47,7 @@ const BottomTabNavigator = () => {
           headerShown: false,
         })}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Today"
         component={TodayScreen}
         options={() => ({
@@ -65,7 +65,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color }) => <Icons name="categories" color={color} />,
           headerShown: false,
         })}
-      />
+      /> */}
     </Tab.Navigator>
   )
 }

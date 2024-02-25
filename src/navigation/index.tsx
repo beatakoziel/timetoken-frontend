@@ -9,7 +9,9 @@ const Navigation = () => {
 
   return (
     <NavigationContainer>
-      {user ? <AppStackNavigator /> : <AuthStackNavigator />}
+      <AppStackNavigator />
+      {/* <AuthStackNavigator /> */}
+      {/* {user ? <AppStackNavigator /> : <AuthStackNavigator />} */}
     </NavigationContainer>
   )
 }
