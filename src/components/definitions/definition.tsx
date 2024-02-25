@@ -18,7 +18,7 @@ import {
   withSpring,
 } from "react-native-reanimated"
 import useSWRMutation from "swr/mutation"
-import { Pressable, StyleSheet } from 'react-native';
+import { Alert, Platform, Pressable, StyleSheet, ToastAndroid } from 'react-native';
 import { Ionicons } from "@expo/vector-icons"
 import { palette } from "@/utils/theme/colors"
 import IconButton from "../shared/icon-button"
@@ -87,6 +87,16 @@ const route = useRoute<CreateCategoryRouteTypes>()
 
   const handleOnPress = () => {
     setIsManagementSectionVisible(!isManagementSectionVisible)
+    notifyMessage("Item deleted")
+  }
+
+  //TODO: implement Alert asking to delete and item and toast afterwards (only android or ios as well if it's possible)
+  function notifyMessage(msg: string) {
+    if (Platform.OS === 'android') {
+      Alert.alert(msg);
+    } else {
+      Alert.alert(msg);
+    }
   }
 
   return (
@@ -138,6 +148,9 @@ const styles = StyleSheet.create({
     borderTopColor: palette.gray600,
     borderTopWidth: 0.5,
     justifyContent: "space-evenly"
+  },
+  alert: {
+    backgroundColor: palette.amber100
   }
 });
 export default Definition
