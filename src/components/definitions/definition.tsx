@@ -62,15 +62,34 @@ const route = useRoute<CreateCategoryRouteTypes>()
     deleteDefinitionRequest
   )
 
-  const deleteDefinition= async () => {
+  const deleteDefinition = async () => {
     try {
-      console.log(token)
-      if (token?.id)
-        await deleteTrigger({
-          id: token?.id,
-        })
-      await mutate(BASE_URL + "tokens")
-      //TODO refresh list of tokens
+      if (token?.id) {
+        Alert.alert('Delete?', `Are you sure you want to delete this definition: ${token.name}?`, [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: 'OK', 
+            onPress: async () => {
+              await deleteTrigger({
+                id: token?.id,
+              })
+              ToastAndroid.showWithGravityAndOffset(
+                'Definition deleted!',
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50,
+              );          
+            }},
+        ]);
+        await mutate(BASE_URL + "tokens")
+      } else {
+        throw Error("Token id not found")
+      }
     } catch (error) {
       console.log("Error ocurred in deleteDefinition", error)
       throw error
@@ -87,16 +106,6 @@ const route = useRoute<CreateCategoryRouteTypes>()
 
   const handleOnPress = () => {
     setIsManagementSectionVisible(!isManagementSectionVisible)
-    notifyMessage("Item deleted")
-  }
-
-  //TODO: implement Alert asking to delete and item and toast afterwards (only android or ios as well if it's possible)
-  function notifyMessage(msg: string) {
-    if (Platform.OS === 'android') {
-      Alert.alert(msg);
-    } else {
-      Alert.alert(msg);
-    }
   }
 
   return (

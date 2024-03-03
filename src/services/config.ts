@@ -1,6 +1,6 @@
 import axios from "axios"
 import * as SecureStore from "expo-secure-store"
-export const BASE_URL = "https://7318-83-24-187-39.ngrok-free.app/api/v1"
+export const BASE_URL = "https://cd7c-83-24-187-39.ngrok-free.app/api/v1"
 
 const TIME_OUT = 30000
 export const ACCESS_TOKEN_NAME = "access_token"
