@@ -46,7 +46,7 @@ interface ITask {
 }
 
 interface IToken {
-  _id: string
+  id: string
   name: string
   value: number
 }

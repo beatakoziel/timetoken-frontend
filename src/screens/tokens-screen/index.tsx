@@ -1,7 +1,7 @@
 import Button from "@/components/shared/button"
 import Loader from "@/components/shared/loader"
 import SafeAreaWrapper from "@/components/shared/safe-area-wrapper"
-import Definition from "@/components/definitions/definition"
+import Token from "@/components/tokens/token"
 import { fetcher } from "@/services/config"
 import { IToken} from "@/types"
 import { Box, Text } from "@/utils/theme"
@@ -10,21 +10,21 @@ import { FlatList } from "react-native"
 import useSWR from "swr"
 import ErrorScreen from "../error-screen"
 
-const DefinitionsScreen = () => {
+const TokensScreen = () => {
   const {
-    data: tasks,
-    isLoading: isLoadingTasks,
+    data: tokens,
+    isLoading: isLoadingTokens,
     error: error,
-    mutate: mutateTasks,
+    mutate: mutateTokens,
   } = useSWR<IToken[]>(`tokens`, fetcher, {
     refreshInterval: 1000
   })
 
-  if (error) { 
+  if (error) {
     return <ErrorScreen error={error}/>
   }
 
-  if (isLoadingTasks) {
+  if (isLoadingTokens) {
     return <Loader />
   }
 
@@ -34,8 +34,7 @@ const DefinitionsScreen = () => {
         <Box height={16} />
         <Box flexDirection="row">
           <Text variant="textXl" fontWeight="700" ml="3">
-            Definitions
-            
+            Tokens {isLoadingTokens ? isLoadingTokens : "elo"}
           </Text>
         </Box>
         <Box height={16} />
@@ -47,10 +46,10 @@ const DefinitionsScreen = () => {
         </Box>
         <Box my="10" >
         <FlatList
-          data={tasks}
+          data={tokens}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => {
-            return <Definition token={item} mutateDefinitions={mutateTasks} />
+            return <Token token={item} mutateTokens={mutateTokens} />
           }}
           ItemSeparatorComponent={() => <Box height={14} />}
           keyExtractor={(item) => item.id}
@@ -69,4 +68,4 @@ const DefinitionsScreen = () => {
   )
 }
 
-export default DefinitionsScreen
+export default TokensScreen

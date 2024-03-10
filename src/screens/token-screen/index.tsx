@@ -3,38 +3,30 @@ import NavigateBack from "@/components/shared/navigate-back"
 import SafeAreaWrapper from "@/components/shared/safe-area-wrapper"
 import Task from "@/components/tasks/task"
 import TaskActions from "@/components/tasks/task-actions"
-import {CategoriesStackParamList, TokensStackParamList} from "@/navigation/types"
+import {TokensStackParamList} from "@/navigation/types"
 import axiosInstance, { fetcher } from "@/services/config"
-import { ICategory, ITask } from "@/types"
+import { IToken, ITask } from "@/types"
 import { Box, Text } from "@/utils/theme"
 import { RouteProp, useRoute } from "@react-navigation/native"
 import React, { useEffect } from "react"
 import { FlatList } from "react-native"
 import useSWR from "swr"
 
-type CategoryScreenRouteProp = RouteProp<CategoriesStackParamList, "Category">
+type TokenScreenRouteProp = RouteProp<TokensStackParamList, "Token">
 
-const CategoryScreen = () => {
-  const route = useRoute<CategoryScreenRouteProp>()
+const TokenScreen = () => {
+  const route = useRoute<TokenScreenRouteProp>()
 
   const { id } = route.params
 
-  const { data: category, isLoading: isLoadingCategory } = useSWR<ICategory>(
-    `categories/${id}`,
+  const { data: token, isLoading: isLoadingToken } = useSWR<IToken>(
+    `tokens/${id}`,
     fetcher
   )
 
-  console.log(`category`, JSON.stringify(category, null, 2))
+  console.log(`token`, JSON.stringify(token, null, 2))
 
-  const {
-    data: tasks,
-    isLoading: isLoadingTasks,
-    mutate: mutateTasks,
-  } = useSWR<ITask[]>(`tasks/tasks-by-categories/${id}`, fetcher, {
-    refreshInterval: 1000,
-  })
-
-  if (isLoadingTasks || isLoadingCategory || !category || !tasks) {
+  if (isLoadingToken || !token) {
     return <Loader />
   }
 
@@ -47,23 +39,13 @@ const CategoryScreen = () => {
         <Box height={16} />
         <Box flexDirection="row">
           <Text variant="textXl" fontWeight="700">
-            {category.icon.symbol}
-          </Text>
-          <Text
-            variant="textXl"
-            fontWeight="700"
-            ml="3"
-            style={{
-              color: category.color.code,
-            }}
-          >
-            {category.name}
+            {token.name}
           </Text>
         </Box>
         <Box height={16} />
         <TaskActions categoryId={id} />
-        <Box height={16} />
-
+        <Box height={16} />ś
+hey
         <FlatList
           data={tasks}
           renderItem={({ item, index }) => {
@@ -76,4 +58,4 @@ const CategoryScreen = () => {
   )
 }
 
-export default CategoryScreen
+export default TokenScreen

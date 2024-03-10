@@ -1,8 +1,8 @@
 import axios from "axios"
 import * as SecureStore from "expo-secure-store"
-export const BASE_URL = "https://1c4f-78-11-226-88.ngrok-free.app/api/v1"
+export const BASE_URL = "http://localhost:8080/api/v1"
 
-const TIME_OUT = 30000
+const TIME_OUT = 50000
 export const ACCESS_TOKEN_NAME = "access_token"
 
 const axiosInstance = axios.create({
@@ -14,7 +14,7 @@ export const saveToken = async (key: string, value: string) => {
   try {
     await SecureStore.setItemAsync(key, value)
   } catch (error) {
-    console.log("Error ocurred in saveToken", error)
+    console.log("Error occurred in saveToken", error)
     throw error
   }
 }

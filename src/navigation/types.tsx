@@ -19,8 +19,8 @@ export type AuthStackParamList = {
 export type RootBottomTabParamList = {
   HomeStack: NavigatorScreenParams<HomeStackParamList>
   Today: undefined
-  Definitions: undefined
   CategoriesStack: NavigatorScreenParams<CategoriesStackParamList>
+  TokensStack: NavigatorScreenParams<TokensStackParamList>
 }
 
 export type HomeStackParamList = {
@@ -38,6 +38,10 @@ export type TokensStackParamList = {
   CreateToken: {
     token?: IToken
   }
+}
+
+export type CategoriesStackParamList = {
+
 }
 
 export type AppStackParamList = {
@@ -71,6 +75,9 @@ export type RootTabScreenProps<Screen extends keyof RootBottomTabParamList> =
 
 export type CategoriesNavigationType =
   NativeStackNavigationProp<CategoriesStackParamList>
+
+export type TokensNavigationType =
+    NativeStackNavigationProp<TokensStackParamList>
 
 export type HomeScreenNavigationType =
   NativeStackNavigationProp<HomeStackParamList>

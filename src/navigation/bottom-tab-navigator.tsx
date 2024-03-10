@@ -1,16 +1,11 @@
-import Icons from "@/components/shared/icons"
-import CompletedScreen from "@/screens/completed-screen"
-import TodayScreen from "@/screens/today-screen"
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
 import {useTheme} from "@shopify/restyle"
-import CategoriesStackNavigator from "./categories-stack-navigator"
-import HomeStackNavigator from "./home-stack-navigator"
 import {RootBottomTabParamList} from "./types"
-import DefinitionsScreen from "@/screens/definitions-screen"
-import IconButton from "@/components/shared/icon-button";
+import TokensScreen from "src/screens/tokens-screen"
 import {Ionicons} from "@expo/vector-icons";
 import React from "react";
 import {palette} from "@/utils/theme/colors";
+import TokensStackNavigator from "@/navigation/token-stack-navigator";
 
 const Tab = createBottomTabNavigator<RootBottomTabParamList>()
 
@@ -43,10 +38,10 @@ const BottomTabNavigator = () => {
         })}
       /> */}
             <Tab.Screen
-                name="Definitions"
-                component={DefinitionsScreen}
+                name="TokensStack"
+                component={TokensStackNavigator}
                 options={() => ({
-                    title: "Definitions",
+                    title: "Tokens",
                     tabBarIcon: ({color}) => <Ionicons name="library-outline" size={30} color={palette.gray600}/>,
                     headerShown: false,
                 })}

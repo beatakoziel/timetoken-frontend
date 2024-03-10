@@ -16,7 +16,7 @@ export const registerUser = async ({
     })
     return response.data.user
   } catch (error) {
-    console.log("Error ocurred in registerUser", error)
+    console.log("Error occurred in registerUser", error)
     throw error
   }
 }
@@ -34,7 +34,7 @@ export const loginUser = async ({ email, password }: LoginUserTypes) => {
     saveToken(ACCESS_TOKEN_NAME, _token)
     return response.data.user
   } catch (error) {
-    console.log("Error ocurred in loginUser", error)
+    console.log("Error occurred in loginUser", error)
     throw error
   }
 }
