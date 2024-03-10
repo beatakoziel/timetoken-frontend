@@ -1,59 +1,57 @@
 interface IUser {
-  email: string
-  username: string
-  password: string
+    email: string
+    username: string
+    password: string
 }
 
 interface IAuthenticatedUser {
-  email: string
-  username: string
+    email: string
+    username: string
 }
 
 export interface IColor {
-  name: string
-  id: string
-  code: string
+    name: string
+    id: string
+    code: string
 }
 
 export interface IIcon {
-  name: string
-  id: string
-  symbol: string
+    name: string
+    id: string
+    symbol: string
 }
 
 interface ICategory {
-  _id: string
-  name: string
-  user: IUser | string
-  isEditable: boolean
-  color: IColor
-  icon: IIcon
+    _id: string
+    name: string
+    user: IUser | string
+    isEditable: boolean
+    color: IColor
+    icon: IIcon
 }
 
 interface ICategoryRequest {
-  name: string
-  color: IColor
-  icon: IIcon
+    name: string
+    color: IColor
+    icon: IIcon
 }
 
 interface ITask {
-  _id: string
-  name: string
-  isCompleted: boolean
-  categoryId: string
-  createdAt: string
-  date: string
+    _id: string
+    name: string
+    isCompleted: boolean
+    categoryId: string
+    createdAt: string
+    date: string
 }
 
 interface IToken {
-  id: string
-  name: string
-  value: number
+    id: string
+    name: string
+    value: number
 }
 
-interface ITaskRequest {
-  name: string
-  isCompleted: boolean
-  categoryId: string
-  date: string
+interface ITokenRequest {
+    name: string
+    value: number
 }

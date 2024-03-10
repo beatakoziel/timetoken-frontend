@@ -1,9 +1,9 @@
 import Button from "@/components/shared/button"
 import NavigateBack from "@/components/shared/navigate-back"
 import SafeAreaWrapper from "@/components/shared/safe-area-wrapper"
-import {CategoriesStackParamList} from "@/navigation/types"
+import {TokensStackParamList} from "@/navigation/types"
 import axiosInstance, {BASE_URL} from "@/services/config"
-import {ICategory, ICategoryRequest, IColor, IIcon} from "@/types"
+import {IColor, IIcon, IToken, ITokenRequest} from "@/types"
 import {getColors, getIcons} from "@/utils/helpers"
 import {MaterialCommunityIcons} from "@expo/vector-icons"
 import {Box, Text, Theme} from "@/utils/theme"
@@ -21,110 +21,109 @@ const ICONS = getIcons()
 const DEFAULT_COLOR = COLORS[0]
 const DEFAULT_ICON = ICONS[0]
 
-const createCategoryRequest = async (
+const createTokenRequest = async (
     url: string,
-    {arg}: { arg: ICategoryRequest }
+    {arg}: { arg: ITokenRequest }
 ) => {
     try {
         await axiosInstance.post(url, {
             ...arg,
         })
     } catch (error) {
-        console.log("error in createCategoryRequest", error)
+        console.log("error in createTokenRequest", error)
         throw error
     }
 }
-const updateCategoryRequest = async (
+const updateTokenRequest = async (
     url: string,
-    {arg}: { arg: ICategoryRequest }
+    {arg}: { arg: ITokenRequest }
 ) => {
     try {
         await axiosInstance.put(url, {
             ...arg,
         })
     } catch (error) {
-        console.log("error in createCategoryRequest", error)
+        console.log("error in updateTokenRequest", error)
         throw error
     }
 }
 
-const deleteCategoryRequest = async (
+const deleteTokenRequest = async (
     url: string,
     {arg}: { arg: { id: string } }
 ) => {
     try {
         await axiosInstance.delete(url + "/" + arg.id)
     } catch (error) {
-        console.log("error in deleteCategoryRequest", error)
+        console.log("error in deleteTokenRequest", error)
         throw error
     }
 }
 
-type CreateCategoryRouteTypes = RouteProp<
-    CategoriesStackParamList,
-    "CreateCategory"
+type CreateTokenRouteTypes = RouteProp<
+    TokensStackParamList,
+    "CreateToken"
 >
 
-const CreateCategoryScreen = () => {
+const CreateTokenScreen = () => {
     const theme = useTheme<Theme>()
     const navigation = useNavigation()
 
-    const route = useRoute<CreateCategoryRouteTypes>()
+    const route = useRoute<CreateTokenRouteTypes>()
 
-    const isEditing = route.params.category ? true : false
+    const isEditing = route.params.token ? true : false
 
     const {trigger, isMutating} = useSWRMutation(
-        "categories/create",
-        createCategoryRequest
+        "tokens/create",
+        createTokenRequest
     )
 
     const {trigger: updateTrigger} = useSWRMutation(
-        "categories/update",
-        updateCategoryRequest
+        "tokens/update",
+        updateTokenRequest
     )
 
     const {trigger: deleteTrigger} = useSWRMutation(
-        "categories/",
-        deleteCategoryRequest
+        "tokens/",
+        deleteTokenRequest
     )
 
     const {mutate} = useSWRConfig()
 
     console.log(`route.params`, JSON.stringify(route.params, null, 2))
 
-    const [newCategory, setNewCategory] = useState<
-        Omit<ICategory, "_id" | "user" | "isEditable">
+    const [newToken, setNewToken] = useState<
+        Omit<IToken, "id">
     >({
-        name: route.params.category?.name ?? "",
-        color: route.params.category?.color ?? DEFAULT_COLOR,
-        icon: route.params.category?.icon ?? DEFAULT_ICON,
+        name: route.params.token?.name ?? "",
+        value: route.params.token?.value ?? 0
     })
 
-    const createNewCategory = async () => {
+    const createNewToken = async () => {
         try {
             if (isEditing) {
-                const updatedCategoryItem = {
-                    ...route.params.category,
-                    ...newCategory,
+                const updatedTokenItem = {
+                    ...route.params.token,
+                    ...newToken,
                 }
                 await updateTrigger({
-                    ...updatedCategoryItem,
+                    ...updatedTokenItem,
                 })
             } else {
                 await trigger({
-                    ...newCategory,
+                    ...newToken,
                 })
             }
-            await mutate(BASE_URL + "categories")
+            await mutate(BASE_URL + "tokens")
             navigation.goBack()
         } catch (error) {
-            console.log("error in createNewCategory", error)
+            console.log("error in createNewToken", error)
             throw error
         }
     }
 
     const updateColor = (color: IColor) => {
-        setNewCategory((prev) => {
+        setNewToken((prev) => {
             return {
                 ...prev,
                 color,
@@ -132,7 +131,7 @@ const CreateCategoryScreen = () => {
         })
     }
     const updateIcon = (icon: IIcon) => {
-        setNewCategory((prev) => {
+        setNewToken((prev) => {
             return {
                 ...prev,
                 icon,
@@ -140,13 +139,13 @@ const CreateCategoryScreen = () => {
         })
     }
 
-    const deleteCategory = async () => {
+    const deleteToken = async () => {
         try {
-            if (isEditing && route.params.category?._id)
+            if (isEditing && route.params.token?.id)
                 await deleteTrigger({
-                    id: route.params.category?._id,
+                    id: route.params.token?.id,
                 })
-            await mutate(BASE_URL + "categories")
+            await mutate(BASE_URL + "tokens")
             navigation.goBack()
         } catch (error) {
             console.log("error in deleteCategor", error)
@@ -165,7 +164,7 @@ const CreateCategoryScreen = () => {
                 >
                     <NavigateBack/>
                     {isEditing && (
-                        <Pressable onPress={deleteCategory}>
+                        <Pressable onPress={deleteToken}>
                             <MaterialCommunityIcons
                                 name="delete"
                                 size={24}
@@ -182,12 +181,12 @@ const CreateCategoryScreen = () => {
                             lineHeight: 26,
                             padding: 16,
                         }}
-                        value={newCategory.name}
+                        value={newToken.name}
                         maxLength={36}
                         placeholder="Create new list"
                         placeholderTextColor={theme.colors.gray5}
                         onChangeText={(text) => {
-                            setNewCategory((prev) => {
+                            setNewToken((prev) => {
                                 return {
                                     ...prev,
                                     name: text,
@@ -198,22 +197,6 @@ const CreateCategoryScreen = () => {
                 </Box>
                 <Box height={24}/>
                 <Box bg="gray250" p="4" borderRadius="rounded-2xl">
-                    <Box
-                        bg="white"
-                        width={80}
-                        p="2"
-                        mb="4"
-                        borderRadius="rounded-2xl"
-                        alignItems="center"
-                    >
-                        <Text
-                            variant="textBase"
-                            fontWeight="600"
-                            color={newCategory.color.name as any}
-                        >
-                            Colors
-                        </Text>
-                    </Box>
 
                     <Box flexDirection="row" justifyContent="space-evenly">
                         {COLORS.map((_color) => {
@@ -241,22 +224,6 @@ const CreateCategoryScreen = () => {
                 <Box height={24}/>
 
                 <Box bg="gray250" p="4" borderRadius="rounded-2xl">
-                    <Box
-                        bg="white"
-                        width={60}
-                        p="2"
-                        mb="4"
-                        borderRadius="rounded-2xl"
-                        alignItems="center"
-                    >
-                        <Text
-                            variant="textBase"
-                            fontWeight="600"
-                            color={newCategory.color.name as any}
-                        >
-                            {newCategory.icon.symbol}
-                        </Text>
-                    </Box>
 
                     <Box flexDirection="row" justifyContent="space-evenly">
                         {ICONS.map((icon) => {
@@ -277,8 +244,8 @@ const CreateCategoryScreen = () => {
                 </Box>
                 <Box position="absolute" bottom={4} left={0} right={0}>
                     <Button
-                        label={isEditing ? "Edit category" : "Create new Category"}
-                        onPress={createNewCategory}
+                        label={isEditing ? "Edit token" : "Create new Token"}
+                        onPress={createNewToken}
                     />
                 </Box>
             </Box>
@@ -286,4 +253,4 @@ const CreateCategoryScreen = () => {
     )
 }
 
-export default CreateCategoryScreen
+export default CreateTokenScreen

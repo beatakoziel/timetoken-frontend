@@ -3,6 +3,7 @@ import React from "react"
 import { TokensStackParamList } from "./types"
 import TokensScreen from "src/screens/tokens-screen";
 import TokenScreen from "src/screens/token-screen";
+import CreateTokenScreen from "@/screens/create-token-screen";
 
 const Stack = createNativeStackNavigator<TokensStackParamList>()
 
@@ -23,13 +24,13 @@ const TokensStackNavigator = () => {
           headerShown: false,
         }}
       />
-{/*      <Stack.Screen
+      <Stack.Screen
         name="CreateToken"
         component={CreateTokenScreen}
         options={{
           headerShown: false,
         }}
-      />*/}
+      />
     </Stack.Navigator>
   )
 }

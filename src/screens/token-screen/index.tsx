@@ -1,16 +1,14 @@
 import Loader from "@/components/shared/loader"
 import NavigateBack from "@/components/shared/navigate-back"
 import SafeAreaWrapper from "@/components/shared/safe-area-wrapper"
-import Task from "@/components/tasks/task"
-import TaskActions from "@/components/tasks/task-actions"
 import {TokensStackParamList} from "@/navigation/types"
-import axiosInstance, {fetcher} from "@/services/config"
-import {IToken, ITask} from "@/types"
+import {fetcher} from "@/services/config"
+import {IToken} from "@/types"
 import {Box, Text} from "@/utils/theme"
 import {RouteProp, useRoute} from "@react-navigation/native"
-import React, {useEffect} from "react"
-import {FlatList} from "react-native"
+import React from "react"
 import useSWR from "swr"
+import Button from "@/components/shared/button";
 
 type TokenScreenRouteProp = RouteProp<TokensStackParamList, "Token">
 
@@ -33,23 +31,33 @@ const TokenScreen = () => {
     return (
         <SafeAreaWrapper>
             <Box flex={1} mx="4">
-                <Box width={40}>
+                <Box width={40} flexDirection="column">
                     <NavigateBack/>
                 </Box>
-                <Box height={16}/>
-                <Box flexDirection="column">
-                    <Text variant="textXl" fontWeight="700">
-                        Token details
-                    </Text>
-                    <Text fontWeight="700">
-                        {token.name}
-                    </Text>
-                    <Text fontWeight="700">
-                        {token.value}
-                    </Text>
+                <Text variant="textXl" fontWeight="700">
+                    Token details
+                </Text>
+                <Box flexDirection="column" flex={1} justifyContent="space-between">
+                    <Box flexDirection="column">
+                        <Text variant="textLg" color="white" fontWeight="700">
+                            Name: {token.name}
+                        </Text>
+                        <Text variant="textLg" color="white" fontWeight="700">
+                            Value: {token.value}
+                        </Text>
+                    </Box>
+
+                    <Box flexDirection="row" justifyContent="space-around">
+                        <Box width={"45%"}>
+                            <Button label="Edit" onPress={() => {
+                            }} outline/>
+                        </Box>
+                        <Box width={"45%"}>
+                            <Button label="Delete" onPress={() => {
+                            }} outline/>
+                        </Box>
+                    </Box>
                 </Box>
-                <Box height={16}/>
-                <Box height={16}/>
             </Box>
         </SafeAreaWrapper>
     )
