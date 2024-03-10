@@ -1,25 +1,30 @@
 import Button from "@/components/shared/button"
 import Loader from "@/components/shared/loader"
-import NavigateBack from "@/components/shared/navigate-back"
 import SafeAreaWrapper from "@/components/shared/safe-area-wrapper"
 import Definition from "@/components/definitions/definition"
 import { fetcher } from "@/services/config"
 import { IToken} from "@/types"
 import { Box, Text } from "@/utils/theme"
 import React from "react"
-import { StyleSheet, FlatList } from "react-native"
+import { FlatList } from "react-native"
 import useSWR from "swr"
+import ErrorScreen from "../error-screen"
 
 const DefinitionsScreen = () => {
   const {
     data: tasks,
     isLoading: isLoadingTasks,
+    error: error,
     mutate: mutateTasks,
   } = useSWR<IToken[]>(`tokens`, fetcher, {
-    refreshInterval: 1000,
-  }) 
+    refreshInterval: 1000
+  })
 
-  if (isLoadingTasks || !tasks) {
+  if (error) { 
+    return <ErrorScreen error={error}/>
+  }
+
+  if (isLoadingTasks) {
     return <Loader />
   }
 
