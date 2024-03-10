@@ -19,6 +19,7 @@ import {Ionicons} from "@expo/vector-icons"
 import {palette} from "@/utils/theme/colors"
 import IconButton from "../shared/icon-button"
 import Toast from "react-native-toast-message"
+import {deleteToken} from "@/services/tokenService";
 
 type CreateCategoryRouteTypes = RouteProp<
     TokensStackParamList,
@@ -90,6 +91,10 @@ const Token = ({token, mutateTokens}: TokenProps) => {
             console.log("Error occurred in deleteToken", error)
             throw error
         }
+    }
+
+    const onDeleteToken = () => {
+        // deleteToken(token)
     }
 
     const [isManagementSectionVisible, setIsManagementSectionVisible] = useState(false)

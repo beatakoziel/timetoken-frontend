@@ -60,7 +60,7 @@ const TokensScreen = () => {
                 <Box mb="3">
                     <Button
                         label="Add new token"
-                        onPress={() => navigation.navigate("CreateToken", {token: {}})}
+                        onPress={() => navigation.navigate("CreateToken", {})}
                         outline
                     />
                 </Box>

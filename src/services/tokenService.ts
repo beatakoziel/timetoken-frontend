@@ -1,3 +1,3 @@
-export const onDeleteToken(): void => {
+export const onDeleteToken = () => {
 
 }
